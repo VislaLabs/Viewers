@@ -11,7 +11,7 @@ export const renderViewer = (context, params, layoutTemplate='app') => {
     const promise = OHIF.viewerbase.prepareViewerData(params);
 
     // Show loading state while preparing the viewer data
-    OHIF.ui.showDialog('dialogLoading', { promise });
+//     OHIF.ui.showDialog('dialogLoading', { promise });
 
     // Render the viewer when the data is ready
     promise.then(({ studies, viewerData }) => {

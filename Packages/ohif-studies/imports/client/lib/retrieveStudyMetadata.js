@@ -6,6 +6,48 @@ import 'meteor/ohif:viewerbase';
 // promises and prevent unnecessary subsequent calls to the server
 const StudyMetaDataPromises = new Map();
 
+function toStudyMetadata(resultData, studyInstanceUid) {
+    const seriesMap = {};
+    const seriesList = [];
+
+    resultData.forEach(function(study) {
+        // Use seriesMap to cache series data
+        // If the series instance UID has already been used to
+        // process series data, continue using that series
+        const seriesInstanceUid = study.seriesInstanceUid;
+        let series = seriesMap[seriesInstanceUid];
+
+        // If no series data exists in the seriesMap cache variable,
+        // process any available series data
+        if (!series) {
+            series = {
+                seriesInstanceUid: seriesInstanceUid,
+                seriesNumber: study.seriesNumber,
+                modality: study.modalities,
+                instances: []
+            };
+
+            // Save this data in the seriesMap cache variable
+            seriesMap[seriesInstanceUid] = series;
+            seriesList.push(series);
+        }
+
+        const sopInstanceUid = study.sopInstanceUid;
+
+        // Add this instance to the current series
+        const { url } = cornerstoneWADOImageLoader.wadouri.parseImageId(study.imageId);
+        series.instances.push({
+            patientId: study.patientId,
+            sopClassUid: study.sopClassUid,
+            sopInstanceUid,
+            uri: study.uri,
+            url: study.imageId,
+            instanceNumber: study.instanceNumber
+        });
+    });
+    return seriesList;
+}
+
 /**
  * Retrieves study metadata using a server call
  *
@@ -32,7 +74,7 @@ OHIF.studies.retrieveStudyMetadata = (studyInstanceUid, seriesInstanceUids) => {
     const promise = new Promise((resolve, reject) => {
         // If no study metadata is in the cache variable, we need to retrieve it from
         // the server with a call.
-        Meteor.call('GetStudyMetadata', studyInstanceUid, function(error, study) {
+        const callback = function(error, study) {
             OHIF.log.timeEnd(timingKey);
 
             if (error) {
@@ -59,7 +101,13 @@ OHIF.studies.retrieveStudyMetadata = (studyInstanceUid, seriesInstanceUids) => {
             }
 
             if (!study) {
-                reject(`GetStudyMetadata: No study data returned from server: ${studyInstanceUid}`);
+                const studies = OHIF.studylist.collections.LocalStudies.find({studyInstanceUid}).fetch();
+                if (studies.length > 0) {
+                  let study = studies[0];
+                  study.seriesList = toStudyMetadata(studies);
+                } else {
+                  reject(`GetStudyMetadata: No study data found: ${studyInstanceUid}`);
+                }
                 return;
             }
 
@@ -93,7 +141,20 @@ OHIF.studies.retrieveStudyMetadata = (studyInstanceUid, seriesInstanceUids) => {
 
             // Resolve the promise with the final study metadata object
             resolve(study);
-        });
+        };
+        if (false) {
+          const server = OHIF.servers.getCurrentServer();
+          const studies = OHIF.studylist.collections.Studies.find({studyInstanceUid}).fetch();
+          if (studies.length > 0) {
+            let study = studies[0];
+            study.seriesList = toStudyMetadata(studies);
+            callback(undefined, study);
+          } else {
+            callback();
+          }
+        } else {
+          Meteor.call('GetStudyMetadata', studyInstanceUid, callback);
+        }
     });
 
     // Store the promise in cache

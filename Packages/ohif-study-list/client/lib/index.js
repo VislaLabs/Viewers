@@ -1,3 +1,4 @@
+import './analyzeStudies.js';
 import './exportSelectedStudies.js';
 import './exportStudies.js';
 import './getSelectedStudies.js';

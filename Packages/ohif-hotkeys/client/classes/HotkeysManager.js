@@ -51,11 +51,12 @@ export class HotkeysManager {
             if (this.retrieveFunction) {
                 this.retrieveFunction(contextName).then(resolve).catch(reject);
             } else if (OHIF.user) {
-                try {
-                    resolve(OHIF.user.getData(storageKey));
-                } catch(error) {
-                    reject(error);
-                }
+                resolve(Session.get(storageKey));
+                // try {
+                //     resolve(OHIF.user.getData(storageKey));
+                // } catch(error) {
+                //     reject(error);
+                // }
             } else {
                 resolve(Session.get(storageKey));
             }

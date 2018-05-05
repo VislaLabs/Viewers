@@ -30,12 +30,13 @@ Template.studyBrowserSeries.onCreated(() => {
         // Get the study display sets
         let displaySets = metadata.displaySets;
         if (!displaySets.length) {
-            displaySets = OHIF.viewerbase.sortingManager.getDisplaySets(metadata);
-            metadata.displaySets = displaySets;
-            metadata.setDisplaySets(displaySets);
+            const studyMetadata = new OHIF.metadata.StudyMetadata(metadata);
+            displaySets = OHIF.viewerbase.sortingManager.getDisplaySets(studyMetadata);
+            studyMetadata.displaySets = displaySets;
+            studyMetadata.setDisplaySets(displaySets);
 
-            metadata.forEachDisplaySet(displaySet => {
-                OHIF.viewerbase.stackManager.makeAndAddStack(metadata, displaySet);
+            studyMetadata.forEachDisplaySet(displaySet => {
+                OHIF.viewerbase.stackManager.makeAndAddStack(studyMetadata, displaySet);
             });
         }
 

@@ -18,9 +18,19 @@ Router.route('/sign-in', {
 // COMPONENT OUTPUTS
 
 
-
+Template.entrySignIn.onRendered(() => {
+    setSignInButtonStyling();
+});
 
 Template.entrySignIn.helpers({
+  isLoggedIn: function () {
+    return Meteor.userId();
+  },
+
+  fullName: function () {
+    return Meteor.user().profile.fullName;
+  },
+
   getSignInMessageColor: function (){
     if (ActiveEntry.errorMessages.get('signInError')) {
       return "color: #a94442; background-color: #f2dede; border-color: #ebccd1;"
@@ -120,6 +130,9 @@ Template.entrySignIn.events({
     var email = $('input[name="email"]').val();
 
     ActiveEntry.verifyEmail(email);
+    if (email.length > 0) {
+        ActiveEntry.successMessages.set('email', "Username is Present.");
+    }
     ActiveEntry.errorMessages.set('signInError', null);
     setSignInButtonStyling();
   },
@@ -127,6 +140,9 @@ Template.entrySignIn.events({
     var email = $('input[name="email"]').val();
 
     ActiveEntry.verifyEmail(email);
+    if (email.length > 0) {
+        ActiveEntry.successMessages.set('email', "Username is Present.");
+    }
     ActiveEntry.errorMessages.set('signInError', null);
     setSignInButtonStyling();
   },
@@ -191,6 +207,7 @@ Template.entrySignIn.events({
 
 // Sets SignInButton Styling according to email and password fields
 function setSignInButtonStyling() {
+  console.log("setSignInButtonStyling");
   var signInToAppButton = $("#signInToAppButton");
   if ($("#signInPagePasswordInput").val() && ActiveEntry.successMessages.get('email')) {
     // Set button as enable

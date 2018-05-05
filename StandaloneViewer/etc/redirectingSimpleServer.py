@@ -33,11 +33,12 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
           self.send_header('Content-Type', 'text/html')
           self.end_headers()
           with open('index.html', 'r') as fin:
+            print("FILE %s" % self.wfile)
             self.copyfile(fin, self.wfile)
 
 Handler = MyHandler
 
 httpd = SocketServer.TCPServer(("", PORT), Handler)
 
-print "serving at port", PORT
+print("serving at port %s" % PORT)
 httpd.serve_forever()

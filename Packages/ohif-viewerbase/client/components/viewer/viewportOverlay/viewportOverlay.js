@@ -104,6 +104,18 @@ Template.viewportOverlay.helpers({
         return viewportOverlayUtils.getStudy.call(this, 'studyDescription');
     },
 
+    accessionNumber() {
+        Session.get('CornerstoneNewImage' + this.viewportIndex);
+
+        return viewportOverlayUtils.getStudy.call(this, 'accessionNumber');
+    },
+
+    diagnostic() {
+        Session.get('CornerstoneNewImage' + this.viewportIndex);
+
+        return viewportOverlayUtils.getDiagnostic.call(this, 'diagnostic');
+    },
+
     seriesDescription() {
         Session.get('CornerstoneNewImage' + this.viewportIndex);
 

@@ -53,7 +53,8 @@ export class MetadataProvider {
             studyTime: studyMetadata.studyTime,
             studyDescription: studyMetadata.studyDescription,
             institutionName: studyMetadata.institutionName,
-            patientHistory: studyMetadata.patientHistory
+            patientHistory: studyMetadata.patientHistory,
+            diagnostic: studyMetadata.diagnostic
         };
 
         metadata.series = {

@@ -8,12 +8,12 @@
         {{/if}}
 
         {{#if isLoggedIn}}
-          <h1 id="signInPageTitle" class="title-auth">{{fullName}}</h1>
+          <h1 id="signInPageTitle" class="title-auth">Hi, {{fullName}}.</h1>
           <div id="signInPageMessage" class="subtitle-auth">You are currently signed in.</div>
 
           <button id="logoutButton" class="btn-primary btn-main btn-large" style="{{getButtonColor}}">Logout</button>
         {{else}}
-          <h1 id="signInPageTitle" class="title-auth">Sign In.</h1>
+          <h1 id="signInPageTitle" class="title-auth">Welcome to Visla</h1>
           <p id="signInPageMessage" class="subtitle-auth" style="{{getSignInMessageColor}}">{{{getSignInMessage}}}</p>
 
             {{#if isLDAPSet}}
@@ -27,7 +27,7 @@
                     {{/if}}
                     <div class="input-symbol">
                         <input id="signInLDAPUsernameInput" type="text" name="username" placeholder="Username" style="{{getLDAPUsernameValidationStyling}}" />
-                        <i class="fa fa-envelope-o" title="Your Email"></i>
+                        <i class="fa fa-envelope-o" title="Your Username"></i>
                     </div>
                     <br><br>
 
@@ -43,8 +43,8 @@
                 <form>
 
                     <div class="input-symbol">
-                        <input id="signInPageEmailInput" type="text" name="email" placeholder="Your Email" style="{{getEmailValidationStyling}}" />
-                        <i class="fa fa-envelope-o" title="Your Email"></i>
+                        <input id="signInPageEmailInput" type="text" name="email" placeholder="Your Username" style="{{getEmailValidationStyling}}" />
+                        <i class="fa fa-user-circle-o" title="Your Username"></i>
                     </div>
                     <br><br>
 
@@ -57,11 +57,11 @@
                 <br><br>
                 <button id="signInToAppButton" class="btn-primary btn-main btn-large disabledButton" disabled style="{{getButtonColor}}">{{getButtonText}}</button>
 
-                <br><br>
+                <!-- <br><br>
                 <button id="needAnAccountButton" class="btn-gray btn-main btn-large">Need an account?</button>
 
                 <br><br>
-                <button id="forgotPasswordButton" class="btn-gray btn-main btn-large">Forgot password?</button>
+                <button id="forgotPasswordButton" class="btn-gray btn-main btn-large">Forgot password?</button> -->
 
             {{/if}}
 

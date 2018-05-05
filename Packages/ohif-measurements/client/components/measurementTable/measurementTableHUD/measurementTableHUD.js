@@ -47,6 +47,13 @@ Template.measurementTableHUD.helpers({
         let buttonData = [];
 
         buttonData.push({
+            id: 'measurements',
+            title: 'Measurements',
+            classes: 'imageViewerTool toolbarSectionButton',
+            svgLink: '/packages/ohif_viewerbase/assets/icons.svg#icon-tools-measure-target'
+        });
+
+        buttonData.push({
             id: 'bidirectional',
             title: 'Target',
             classes: 'imageViewerTool toolbarSectionButton',

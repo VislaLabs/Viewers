@@ -4,6 +4,9 @@ import './serverInformationDicomWeb/serverInformationDicomWeb.js';
 import './serverInformationDimse/serverInformationDimse.html';
 import './serverInformationDimse/serverInformationDimse.js';
 
+import './serverInformationFilesystem/serverInformationFilesystem.html';
+import './serverInformationFilesystem/serverInformationFilesystem.js';
+
 import './serverInformationForm/serverInformationForm.html';
 import './serverInformationForm/serverInformationForm.js';
 

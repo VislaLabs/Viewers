@@ -117,6 +117,13 @@ Template.toolbarSection.helpers({
         const buttonData = [];
 
         buttonData.push({
+            id: 'disease',
+            title: 'Disease',
+            classes: 'imageViewerTool',
+            iconClasses: 'packages/ohif_viewerbase/assets/Visla.svg#Visla-Copy-4aa'
+        });
+
+        buttonData.push({
             id: 'zoom',
             title: 'Zoom',
             classes: 'imageViewerTool',

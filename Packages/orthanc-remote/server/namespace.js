@@ -1,4 +1,4 @@
 OrthancRemote = function(root, localAE){
-  this.root = root || 'http://localhost:8042';
+  this.root = 'http://localhost:8042';  // root || 
   this.localAE = localAE || 'ORTHANCLOCAL';
 };

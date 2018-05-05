@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { OHIF } from 'meteor/ohif:core';
+import { Router } from 'meteor/iron:router';
 
 /**
  * Loads multiple unassociated studies in the Viewer
@@ -67,12 +68,61 @@ const removeTimepointAssociations = event => {
     });
 };
 
+const copyViewerURL = () => {
+    const selectedStudies = OHIF.studylist.getSelectedStudies();
+
+    if (!selectedStudies || !selectedStudies.length) {
+        return;
+    }
+
+    const studyInstanceUids = selectedStudies.map(study => study.studyInstanceUid).join(';');
+    const el = document.createElement('textarea');
+    el.value = Router.url('viewerStudies', { studyInstanceUids });
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+}
+
+const copyDICOMURL = () => {
+    const selectedStudies = OHIF.studylist.getSelectedStudies();
+
+    if (!selectedStudies || !selectedStudies.length) {
+        return;
+    }
+
+    const studyInstanceUids = selectedStudies.map(study => study.studyInstanceUid).join(';');
+    const el = document.createElement('textarea');
+    el.value = Router.url('viewerStudies', { studyInstanceUids });
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+}
+
 Meteor.startup(() => {
     if (!OHIF.studylist) return;
 
     OHIF.studylist.dropdown.setItems([{
-        action: OHIF.studylist.viewStudies,
+        action: (params, event) => OHIF.studylist.viewStudies(false),
         text: 'View',
+    }, {
+        action: (params, event) => OHIF.studylist.viewStudies(true),
+        text: 'View In New Tab',
+        separatorAfter: true
+    }, {
+        action: copyViewerURL,
+        text: 'Copy Viewer URL',
+        separatorAfter: false
+    }, {
+        action: copyDICOMURL,
+        text: 'Copy DICOM URL',
         separatorAfter: true
     }, {
         action: () => OHIF.ui.showDialog('dialogStudyAssociation'),
@@ -92,6 +142,9 @@ Meteor.startup(() => {
     }, {
         action: OHIF.studylist.viewSeriesDetails,
         text: 'View Series Details'
+    }, {
+        action: OHIF.studylist.analyzeStudies,
+        text: 'Apply AI Model'
     }, {
         text: 'Anonymize',
         disabled: true

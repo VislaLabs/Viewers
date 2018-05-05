@@ -36,10 +36,12 @@ Template[defaultTemplate].onRendered(() => {
         computation.stop();
         const imageIndex = instance.getImageIndex();
         OHIF.studies.loadStudy(studyInstanceUid).then(studyMetadata => {
-            const seriesMetadata = studyMetadata.getSeriesByUID(seriesInstanceUid);
-            const instanceMetadata = seriesMetadata.getInstanceByIndex(imageIndex);
-            if (!instanceMetadata) return;
-            instance.instanceMetadata.set(instanceMetadata);
+            if (studyMetadata.getSeriesByUID != undefined) {
+                const seriesMetadata = studyMetadata.getSeriesByUID(seriesInstanceUid);
+                const instanceMetadata = seriesMetadata.getInstanceByIndex(imageIndex);
+                if (!instanceMetadata) return;
+                instance.instanceMetadata.set(instanceMetadata);
+            }
         });
     });
 });

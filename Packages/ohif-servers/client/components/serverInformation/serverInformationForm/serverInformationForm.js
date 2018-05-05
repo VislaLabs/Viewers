@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { OHIF } from 'meteor/ohif:core';
 import { DICOMWebServer as dicomSchema } from 'meteor/ohif:servers/both/schema/servers.js';
 import { DIMSEServer as dimseSchema } from 'meteor/ohif:servers/both/schema/servers.js';
+import { FilesystemServer as filesystemSchema } from 'meteor/ohif:servers/both/schema/servers.js';
 
 Template.serverInformationForm.onCreated(() => {
     const instance = Template.instance();
@@ -56,6 +57,8 @@ Template.serverInformationForm.onRendered(() => {
         // Change the schema based on the selected server type
         if (type === 'dimse') {
             instance.currentSchema.set(dimseSchema);
+        } else if (type == 'filesystem') {
+            instance.currentSchema.set(filesystemSchema);
         } else {
             instance.currentSchema.set(dicomSchema);
         }

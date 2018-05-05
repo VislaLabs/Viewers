@@ -77,12 +77,13 @@ Template.seriesQuickSwitch.helpers({
 
         let displaySets = study.displaySets;
         if (!displaySets.length) {
-            displaySets = OHIF.viewerbase.sortingManager.getDisplaySets(study);
-            study.displaySets = displaySets;
-            study.setDisplaySets(displaySets);
+            const studyMetadata = new OHIF.metadata.StudyMetadata(study);
+            displaySets = OHIF.viewerbase.sortingManager.getDisplaySets(studyMetadata);
+            studyMetadata.displaySets = displaySets;
+            studyMetadata.setDisplaySets(displaySets);
 
-            study.forEachDisplaySet(displaySet => {
-                OHIF.viewerbase.stackManager.makeAndAddStack(study, displaySet);
+            studyMetadata.forEachDisplaySet(displaySet => {
+                OHIF.viewerbase.stackManager.makeAndAddStack(studyMetadata, displaySet);
             });
         }
 

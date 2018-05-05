@@ -6,42 +6,45 @@ import { OHIF } from 'meteor/ohif:core';
 Template.seriesDetailsTable.onCreated(() => {
     const instance = Template.instance();
 
-    // Create selected studies
-    instance.selectedStudies = new ReactiveDict();
-
-    let selectedStudiesData = instance.data.selectedStudies;
-
-    if (!selectedStudiesData) {
-        return;
-    }
-
-    // Display loading text while getting series
-    _.each(selectedStudiesData, selectedStudy => {
-
-        selectedStudy.displaySeriesLoadingText = true;
-    });
-
-    // Set reactive selected studies
-    instance.selectedStudies.set('studies', selectedStudiesData);
-});
-
-Template.seriesDetailsTable.onRendered(() => {
-    const instance = Template.instance();
-    const studies = instance.selectedStudies.get('studies');
+    let studies = instance.data.selectedStudies;
 
     if (!studies) {
         return;
     }
 
-    // Get series list for the study
-    _.map(studies, (selectedStudy, index) => {
-        studies[index].seriesList = [];
-        OHIF.studies.retrieveStudyMetadata(study => {
-            // Set series list
-            studies[index].seriesList = study.seriesList;
-            studies[index].displaySeriesLoadingText = false;
+    // Display loading text while getting series
+    studies.forEach(study => {
+        study.displaySeriesLoadingText = true;
+    });
 
-            // Update selected studies
+    instance.selectedStudies = new ReactiveDict();
+    instance.selectedStudies.set('studies', studies);
+});
+
+Template.seriesDetailsTable.onRendered(() => {
+    const instance = Template.instance();
+    const studies = instance.data.selectedStudies;  //instance.selectedStudies.get('studies');
+
+    if (!studies) {
+        return;
+    }
+
+    new Promise((resolve, reject) => {
+        studies.forEach(study => {
+            const report = OHIF.studylist.reports[study.accessionNumber];
+            if (report && report.text) {
+                study.report = report.text.join('\n');
+            }
+            instance.selectedStudies.set('studies', studies);
+            resolve();
+        });
+    });
+
+    // Get series list for the study
+    studies.forEach(study => {
+        OHIF.studies.retrieveStudyMetadata(study.studyInstanceUid).then(studyMetadata => {
+            study.seriesList = studyMetadata.seriesList;
+            study.displaySeriesLoadingText = false;
             instance.selectedStudies.set('studies', studies);
         });
     });
@@ -49,7 +52,6 @@ Template.seriesDetailsTable.onRendered(() => {
 
 Template.seriesDetailsTable.helpers({
     selectedStudies() {
-        const instance = Template.instance();
-        return instance.selectedStudies.get('studies');
+        return Template.instance().selectedStudies.get('studies');
     }
 });

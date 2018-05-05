@@ -99,6 +99,28 @@
                 {{/each}}
                 </tbody>
             </table>
+
+            <table class="table table-responsive tblSeriesDetails">
+                <thead>
+                <tr>
+                    <th class="header">Report</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- {{#if displaySeriesLoadingText}}
+                    <tr>
+                        <td colspan="4" class="center">
+                            {{> loadingText }}
+                        </td>
+                    </tr>
+                {{else}} -->
+                    <tr>
+                        <td class="center">{{ report }}</td>
+                    </tr>
+                <!-- {{/if}} -->
+                </tbody>
+            </table>
         </div>
     {{/each}}
 </template>

@@ -11,8 +11,7 @@ Template.paginationArea.onCreated(function() {
     instance.schema = new SimpleSchema({
         rowsPerPage: {
             type: Number,
-            allowedValues: [25, 50, 100],
-            defaultValue: 25
+            allowedValues: [25, 50, 100, 500, 1000]
         }
     });
 });
@@ -25,6 +24,7 @@ Template.paginationArea.onRendered(() => {
     instance.autorun(() => {
         const recordCount = instance.data.recordCount.get();
         const rowsPerPage = instance.data.rowsPerPage.get();
+        const startPage = instance.data.currentPage.get() + 1;
 
         // Destroy plugin if exists
         if (instance.$paginationControl.data().twbsPagination) {
@@ -36,6 +36,7 @@ Template.paginationArea.onRendered(() => {
 
             // Initialize plugin
             instance.$paginationControl.twbsPagination({
+                startPage,
                 totalPages,
                 visiblePages,
                 onPageClick: (event, page) => {

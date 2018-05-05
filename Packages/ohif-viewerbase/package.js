@@ -27,8 +27,13 @@ Package.onUse(function(api) {
         'ohif:log'
     ]);
 
+    api.use([
+        'visla:cornerstone'
+    ]);
+
     const assets = [
         'assets/icons.svg',
+        'assets/Visla.svg',
         'assets/fonts/Roboto-Black-latin-ext.woff',
         'assets/fonts/Roboto-Black-latin-ext.woff2',
         'assets/fonts/Roboto-Black-latin.woff',

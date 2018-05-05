@@ -10,6 +10,7 @@ import { crosshairsSynchronizers } from './crosshairsSynchronizers';
 import { annotateTextUtils } from './annotateTextUtils';
 import { textMarkerUtils } from './textMarkerUtils';
 import { isTouchDevice } from './helpers/isTouchDevice';
+import { vislaTools } from 'meteor/visla:cornerstone.js';
 
 let defaultTool = {
     left: 'wwwc',
@@ -63,6 +64,10 @@ let initialized = false;
  */
 export const toolManager = {
     init() {
+        toolManager.addTool('heatmaps', {
+            mouse: vislaTools.chestXRay,
+            touch: vislaTools.chestXRayTouchDrag
+        });
         toolManager.addTool('wwwc', {
             mouse: cornerstoneTools.wwwc,
             touch: cornerstoneTools.wwwcTouchDrag

@@ -19,7 +19,15 @@ Template.studylistToolbar.events({
         //  Get selected files located in the client machine
         const selectedFiles = $.map(event.currentTarget.files, value => value);
 
-        OHIF.studylist.importStudies(selectedFiles);
+        var dcmFiles = [];
+        selectedFiles.forEach(file => {
+          const fileNameParts = file.name.split(".");
+          if (fileNameParts.length > 0 && fileNameParts[fileNameParts.length - 1].toLowerCase() == "dcm") {
+            dcmFiles.push(file);
+          }
+        });
+
+        OHIF.studylist.addLocalFiles(dcmFiles);
     },
 
     'click .js-import-files'(event) {
@@ -29,6 +37,18 @@ Template.studylistToolbar.events({
 });
 
 Template.studylistToolbar.helpers({
+    numberOfStudies() {
+        OHIF.studylist._dep2.depend();
+        const count = OHIF.studylist.studyCount;
+        if (count == 0) {
+          return "Add local DICOM files"
+        } else if (count == 1) {
+          return count + " study";
+        } else {
+          return count + " studies";
+        }
+    },
+
     importSupported() {
         const importSupported = Session.get('importSupported');
         return (importSupported && OHIF.uiSettings.studyListFunctionsEnabled);

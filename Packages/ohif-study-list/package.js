@@ -1,11 +1,12 @@
 Package.describe({
     name: 'ohif:study-list',
     summary: 'Basic study list for web-based DICOM viewers',
-    version: '0.0.1'
+    version: '0.0.4'
 });
 
 Npm.depends({
-    hammerjs: '2.0.8'
+    hammerjs: '2.0.8',
+    watchpack: '1.5.0'
 });
 
 Package.onUse(function(api) {

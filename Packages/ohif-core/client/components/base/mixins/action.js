@@ -47,7 +47,7 @@ OHIF.mixins.action = new OHIF.Mixin({
                     return true;
                 } else {
                     // Call the defined action function
-                    component.actionResult = api[action].call(event.currentTarget, params, event);
+                    component.actionResult = api[action].call(event.currentTarget, params, event.originalEvent);
                 }
 
                 // Prepend a spinner into the action element content if it's a promise

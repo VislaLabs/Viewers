@@ -1,5 +1,7 @@
 import { cornerstone } from 'meteor/ohif:cornerstone';
 import { getElementIfNotEmpty } from './getElementIfNotEmpty';
+// Visla Modules
+import { vislaTools } from 'meteor/visla:cornerstone.js';
 
 const getPatient = function(property) {
     if (!this.imageId) {
@@ -12,6 +14,62 @@ const getPatient = function(property) {
     }
 
     return patient[property];
+};
+
+const getDiagnostic = function(property) {
+    if (!this.imageId) {
+        return false;
+    }
+
+    const instance = cornerstone.metaData.get('instance', this.imageId);
+    if (!instance) {
+        return false;
+    }
+
+    const modality = instance['modality'];
+    if (!modality || modality != 'CR') {
+        return false;
+    }
+
+    const diagnostic = vislaTools.getDiagnostic();
+    const length = Object.keys(diagnostic).length;
+    if (length == 0) {
+        return '';
+    }
+
+    var result = "";
+    var impression = false;
+    var transition = false;
+    var found = 0;
+    for (const [key, value] of Object.entries(diagnostic)) {
+        if (value > 50.0) {
+            if (impression == false) {
+                result += "IMPRESSION: "
+                impression = true;
+            } else {
+                result += ", ";
+            }
+            result += key;
+        } else {
+            if (!transition) {
+              if (found > 0) {
+                  result += "\n"
+                  result += "Also suspicion of ";
+              } else {
+                var adjective = "";
+                if (value < 20.0) {
+                  adjective = "small ";
+                }
+                result += `\nIt saw a ${adjective}risk of `;
+              }
+            } else {
+              result += ", ";
+            }
+            transition = true;
+            result += key;
+        }
+    }
+    return result;
 };
 
 const getStudy = function(property) {
@@ -90,6 +148,7 @@ const formatDateTime = (date, time) => `${date} ${time}`;
 
 const viewportOverlayUtils = {
     getPatient,
+    getDiagnostic,
     getStudy,
     getSeries,
     getInstance,

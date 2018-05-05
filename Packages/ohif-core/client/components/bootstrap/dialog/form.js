@@ -15,7 +15,7 @@ Template.dialogForm.onCreated(() => {
 
     instance.api = {
 
-        confirm() {
+        confirm(params, event) {
             // Check if the form has valid data
             const form = instance.$('form').data('component');
             if (!form.validate()) {
@@ -26,7 +26,7 @@ Template.dialogForm.onCreated(() => {
             const dismiss = param => dismissModal(instance.data.promiseResolve, param);
 
             if (_.isFunction(instance.data.confirmCallback)) {
-                const result = instance.data.confirmCallback(formData);
+                const result = instance.data.confirmCallback(formData, event);
                 if (result instanceof Promise) {
                     return result.then(dismiss);
                 } else {

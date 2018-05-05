@@ -186,7 +186,7 @@ HP.ProtocolEngine = class ProtocolEngine {
      */
     updateProtocolMatches() {
         OHIF.log.info('ProtocolEngine::updateProtocolMatches');
-
+        
         // Clear all data from the MatchedProtocols Collection
         MatchedProtocols.remove({});
 
@@ -212,6 +212,18 @@ HP.ProtocolEngine = class ProtocolEngine {
                 }
             });
         });
+
+                // If no matches were found, select the default protocol
+        if (!MatchedProtocols.length) {
+            const defaultProtocol = HP.ProtocolStore.getProtocol('defaultProtocol');
+
+            MatchedProtocols.insert([{
+                score: 1,
+                protocol: defaultProtocol
+            }]);
+        }
+
+        OHIF.log.info('ProtocolEngine::updateProtocolMatches matched', MatchedProtocols);
     }
 
     /**

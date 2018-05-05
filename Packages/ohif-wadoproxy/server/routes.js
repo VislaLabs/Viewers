@@ -37,12 +37,12 @@ Router.route(Settings.uri.replace(OHIF.utils.absoluteUrl(), ''), function() {
     let start = now();
     let user;
     if (doAuth) {
-        user = authenticateUser(request);
-        if (!user) {
-            response.writeHead(401);
-            response.end('Error: You must be logged in to perform this action.\n');
-            return;
-        }
+        // user = authenticateUser(request);
+        // if (!user) {
+        //     response.writeHead(401);
+        //     response.end('Error: You must be logged in to perform this action.\n');
+        //     return;
+        // }
     }
 
     let end = now();

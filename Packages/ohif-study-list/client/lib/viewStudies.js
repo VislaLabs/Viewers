@@ -4,7 +4,7 @@ import { Router } from 'meteor/iron:router';
 /**
  * Loads multiple unassociated studies in the Viewer
  */
-OHIF.studylist.viewStudies = () => {
+OHIF.studylist.viewStudies = (newTab = false) => {
     OHIF.log.info('viewStudies');
     const selectedStudies = OHIF.studylist.getSelectedStudies();
 
@@ -14,5 +14,9 @@ OHIF.studylist.viewStudies = () => {
 
     const studyInstanceUids = selectedStudies.map(study => study.studyInstanceUid).join(';');
 
-    Router.go('viewerStudies', { studyInstanceUids });
+    if (newTab) {
+        window.open(Router.url('viewerStudies', { studyInstanceUids }));
+    } else {
+        Router.go('viewerStudies', { studyInstanceUids });
+    }
 };

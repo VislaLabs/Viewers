@@ -107,6 +107,7 @@ Meteor.startup(function() {
 
     // Register the tool switching commands
     registerToolCommands({
+        heatmaps: 'Disease Heatmaps',
         wwwc: 'W/L',
         zoom: 'Zoom',
         angle: 'Angle Measurement',

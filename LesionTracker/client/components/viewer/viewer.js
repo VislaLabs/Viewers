@@ -230,6 +230,10 @@ Template.viewer.onCreated(() => {
     instance.measurementModifiedHandler = _.throttle((event, instance) => {
         OHIF.measurements.MeasurementHandlers.onModified(event, instance);
     }, 300);
+
+    instance.findingModifiedHandler = _.throttle((event, instance) => {
+        OHIF.findings.FindingHandlers.onModified(event, instance);
+    }, 300);
 });
 
 /**
@@ -376,6 +380,21 @@ Template.viewer.events({
     'cornerstonemeasurementremoved .imageViewerViewport'(event, instance) {
         const originalEvent = event.originalEvent;
         OHIF.measurements.MeasurementHandlers.onRemoved(originalEvent, instance);
+    },
+
+    'cornerstonetoolsfindingadded .imageViewerViewport'(event, instance) {
+        const originalEvent = event.originalEvent;
+        OHIF.findings.FindingHandlers.onAdded(originalEvent, instance);
+    },
+
+    'cornerstonetoolsfindingmodified .imageViewerViewport'(event, instance) {
+        const originalEvent = event.originalEvent;
+        instance.findingModifiedHandler(originalEvent, instance);
+    },
+
+    'cornerstonefindingremoved .imageViewerViewport'(event, instance) {
+        const originalEvent = event.originalEvent;
+        OHIF.findings.FindingHandlers.onRemoved(originalEvent, instance);
     }
 });
 

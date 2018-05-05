@@ -1,33 +1,15 @@
 <template name="studylistResult">
-    <div class="studyListToolbar clearfix">
+    <!-- <div class="studyListToolbar clearfix">
         <div class="header pull-left">Study List</div>
         <div class="studyCount pull-right">{{numberOfStudies}}</div>
         <div class="pull-right">{{>studylistToolbar}}</div>
-    </div>
+    </div> -->
     <div class="theadBackground">
     </div>
     <div id="studyListContainer">
         <table id="tblStudyList" class="studylistResult table noselect">
             <thead>
                 <tr>
-                    <th class="patientName">
-                        <div id="_patientName" class="sortingCell">
-                            <span>Patient Name</span>
-                            <i class="{{sortingColumnsIcons.patientName}}">&nbsp;</i>
-                        </div>
-                        <input type="text"
-                               class="form-control studylist-search"
-                               id="patientName">
-                    </th>
-                    <th class="patientId">
-                        <div id="_patientId" class="sortingCell">
-                            <span>MRN</span>
-                            <i class="{{sortingColumnsIcons.patientId}}">&nbsp;</i>
-                        </div>
-                        <input type="text"
-                               class="form-control studylist-search"
-                               id="patientId">
-                    </th>
                     <th class="accessionNumber">
                         <div id="_accessionNumber" class="sortingCell ">
                             <span>Accession #</span>
@@ -37,6 +19,60 @@
                                class="form-control studylist-search"
                                id="accessionNumber">
                     </th>
+                    <th class="patientName">
+                        <div id="_patientName" class="sortingCell">
+                            <span>Patient Name</span>
+                            <i class="{{sortingColumnsIcons.patientName}}">&nbsp;</i>
+                        </div>
+                        <input type="text"
+                               class="form-control studylist-search"
+                               id="patientName">
+                    </th>
+                    <th class="report">
+                        <div id="_report" class="sortingCell">
+                            <span>Initial Report</span>
+                            <i class="{{sortingColumnsIcons.report}}">&nbsp;</i>
+                        </div>
+                        <input type="text"
+                               class="form-control studylist-search"
+                               id="report">
+                    </th>
+                    <th class="diseases">
+                        <div id="_diseases" class="sortingCell">
+                            <span>Detected Diseases</span>
+                            <i class="{{sortingColumnsIcons.diseases}}">&nbsp;</i>
+                        </div>
+                        <input type="text"
+                               class="form-control studylist-search"
+                               id="diseases">
+                    </th>
+                    <th class="diseaseRisk">
+                        <div id="_diseaseRisk" class="sortingCell">
+                            <span>Disease Risk</span>
+                            <i class="{{sortingColumnsIcons.diseaseRisk}}">&nbsp;</i>
+                        </div>
+                        <input type="text"
+                               class="form-control studylist-search"
+                               id="diseaseRisk">
+                    </th>
+                    <th class="studyDescription">
+                        <div id="_studyDescription" class="sortingCell">
+                            <span>Study Description</span>
+                            <i class="{{sortingColumnsIcons.studyDescription}}">&nbsp;</i>
+                        </div>
+                        <input type="text"
+                               class="form-control studylist-search"
+                               id="studyDescription">
+                    </th>
+                    <!-- <th class="patientId">
+                        <div id="_patientId" class="sortingCell">
+                            <span>MRN</span>
+                            <i class="{{sortingColumnsIcons.patientId}}">&nbsp;</i>
+                        </div>
+                        <input type="text"
+                               class="form-control studylist-search"
+                               id="patientId">
+                    </th> -->
                     <th class="studyDate">
                         <div id="_studyDate" class="sortingCell">
                             <span>Study Date</span>
@@ -56,15 +92,6 @@
                                class="form-control studylist-search"
                                id="modality">
                     </th>
-                    <th class="studyDescription">
-                        <div id="_studyDescription" class="sortingCell">
-                            <span>Study Description</span>
-                            <i class="{{sortingColumnsIcons.studyDescription}}">&nbsp;</i>
-                        </div>
-                        <input type="text"
-                               class="form-control studylist-search"
-                               id="studyDescription">
-                    </th>
                 </tr>
             </thead>
             <tbody id="studyListData">
@@ -83,9 +110,15 @@
             {{#if session "serverError"}}
                 <div class="notFound">There was an error fetching studies</div>
             {{else}}
-                {{#unless numberOfStudies}}
-                    <div class="notFound">No matching results</div>
-                {{/unless}}
+                {{#if session "showLoadingVisla"}}
+                    <div class="loadingTextDiv">
+                        Loading Reports... <i class="fa fa-spin fa-circle-o-notch fa-fw"></i>
+                    </div>
+                {{else}}
+                    {{#unless numberOfStudies}}
+                        <div class="notFound">No matching results</div>
+                    {{/unless}}
+                {{/if}}
             {{/if}}
         {{/if}}
     </div>

@@ -9,8 +9,8 @@ const serverNameDefinitions = {
 const serverTypeDefinitions = {
     type: String,
     label: 'Server Type',
-    allowedValues: ['dicomWeb', 'dimse'],
-    valuesLabels: ['DICOM Web', 'DIMSE'],
+    allowedValues: ['dicomWeb', 'dimse', 'filesystem'],
+    valuesLabels: ['DICOM Web', 'DIMSE', 'Filesystem'],
     optional: true
 };
 
@@ -74,6 +74,16 @@ export const DICOMWebServer = new SimpleSchema({
     requestOptions: {
         type: DICOMWebRequestOptions,
         label: 'Request Options'
+    }
+});
+
+export const FilesystemServer = new SimpleSchema({
+    name: serverNameDefinitions,
+    type: serverTypeDefinitions,
+    directoryRoot: {
+        type: String,
+        label: 'DICOM root directory',
+        max: 1000
     }
 });
 
@@ -264,6 +274,11 @@ export const Servers = new SimpleSchema({
     dimse: {
         type: [DIMSEServer],
         label: 'DIMSE Servers',
+        optional: true
+    },
+    filesystem: {
+        type: [FilesystemServer],
+        label: 'Filesystem Servers',
         optional: true
     }
 });

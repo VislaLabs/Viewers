@@ -7,8 +7,9 @@
                 <div class='priorIndicator'>{{prior}}</div>
             </div>
             <div class="topright dicomTag">
-                <div>{{studyDescription}}</div>
                 <div>{{formatDA studyDate}} {{formatTM studyTime}}</div>
+                <div>{{#if studyDescription}}Disease Risk: {{/if}}{{studyDescription}}</div>
+                <div>{{diagnostic}}</div>
             </div>
             <div class="bottomright dicomTag">
                 <div>{{#if zoom}}Zoom: {{formatNumberPrecision zoom 0}}%{{/if}}</div>
@@ -34,7 +35,7 @@
                 <div>{{formatPN patientName}}</div>
                 <div>{{patientId}}</div>
                 <div class='priorIndicator'>{{prior}}</div>
-                <div>{{studyDescription}}</div>
+                <div>{{#if studyDescription}}Disease Risk: {{/if}}{{studyDescription}}</div>
                 <div>{{formatDA studyDate}} {{formatTM studyTime}}</div>
             </div>
             <div class="bottomright dicomTag">
@@ -54,7 +55,7 @@
                 <div>{{formatPN patientName}}</div>
                 <div>{{patientId}}</div>
                 <div class='priorIndicator'>{{prior}}</div>
-                <div>{{studyDescription}}</div>
+                <div>{{#if studyDescription}}Disease Risk: {{/if}}{{studyDescription}}</div>
                 <div>{{formatDA studyDate}} {{formatTM studyTime}}</div>
             </div>
             <div class="bottomleft dicomTag">

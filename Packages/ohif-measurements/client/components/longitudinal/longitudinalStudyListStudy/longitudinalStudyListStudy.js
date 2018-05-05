@@ -46,6 +46,52 @@ if (OHIF.studylist) {
             }
 
             return getReviewerTipText(timepointReviewers.reviewers);
+        },
+
+        reportText() {
+            OHIF.studylist._dep.depend();
+            const instance = Template.instance();
+            return instance.data.reportText.join('\n');
+        },
+
+        reportAnomalies() {
+            OHIF.studylist._dep.depend();
+            const instance = Template.instance();
+            return instance.data.reportAnomalies;
+        },
+
+        reportStyle() {
+            OHIF.studylist._dep.depend();
+            const instance = Template.instance();
+            if (instance.data.isReportNormal) {
+                return "";
+            } else {
+                const anomalies = instance.data.reportAnomalies;
+                if (anomalies.includes("Urgent")) {
+                    return "urgentReport";
+                }
+                if (anomalies.includes("Atelectasis") || anomalies.includes("Nodule") || anomalies.includes("Cardiomegaly")) {
+                    return "abnormalReport";
+                }
+                if (anomalies.includes("Scoliosis") || anomalies.includes("Minimal")) {
+                    return "yellowReport";
+                }
+                if (anomalies.includes("Scar") || anomalies.includes("Minimal")) {
+                    return "scarReport";
+                }
+                // if (anomalies.includes("Mild")) {
+                //     return "orangeReport";
+                // }
+                if (anomalies.includes("Sternotomy")) {
+                    return "greyReport";
+                }
+                if (anomalies.includes("Old") || anomalies.includes("Healed")) {
+                    return "greyReport";
+                } else if (anomalies.includes("Fracture")) {
+                    return "blueReport";
+                }
+                return "abnormalReport";
+            }
         }
     });
 

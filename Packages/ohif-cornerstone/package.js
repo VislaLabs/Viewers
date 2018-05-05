@@ -1,7 +1,7 @@
 Package.describe({
     name: 'ohif:cornerstone',
     summary: 'Cornerstone Web-based Medical Imaging libraries',
-    version: '0.0.1'
+    version: '0.0.5'
 });
 
 Npm.depends({

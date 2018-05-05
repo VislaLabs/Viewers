@@ -1,7 +1,7 @@
 Package.describe({
     name: 'ohif:servers',
     summary: 'OHIF collections to manage DICOM server information',
-    version: '0.0.1'
+    version: '0.0.2'
 });
 
 Package.onUse(function(api) {
@@ -13,6 +13,8 @@ Package.onUse(function(api) {
     api.use('stylus');
     api.use('aldeed:simple-schema');
     api.use('aldeed:collection2');
+    api.use('cfs:standard-packages');
+    api.use('cfs:filesystem');
 
     // Our custom packages
     api.use('ohif:core');

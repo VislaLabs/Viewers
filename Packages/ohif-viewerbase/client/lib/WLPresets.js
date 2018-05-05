@@ -148,11 +148,12 @@ class WindowLevelPresetsManager {
             if (this.retrieveFunction) {
                 this.retrieveFunction.call(this).then(resolve).catch(reject);
             } else if (OHIF.user) {
-                try {
-                    resolve(OHIF.user.getData(WL_STORAGE_KEY));
-                } catch(error) {
-                    reject(error);
-                }
+                resolve(Session.get(WL_STORAGE_KEY));
+                // try {
+                //     resolve(OHIF.user.getData(WL_STORAGE_KEY));
+                // } catch(error) {
+                //     reject(error);
+                // }
             } else {
                 resolve(Session.get(WL_STORAGE_KEY));
             }

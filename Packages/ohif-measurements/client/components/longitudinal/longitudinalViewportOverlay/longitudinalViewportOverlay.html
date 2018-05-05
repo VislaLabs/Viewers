@@ -1,8 +1,8 @@
 <template name="longitudinalViewportOverlay">
-    <div class="imageViewerViewportOverlay noselect {{#if gt numImages 1}}controlsVisible{{/if}}">
+    <div class="imageViewerViewportOverlay {{#if gt numImages 1}}controlsVisible{{/if}}">  //noselect
         {{#unless tagDisplaySpecified}}
             <div class="topleft dicomTag">
-                <div>{{patientId}}</div>
+                <!-- <div>{{patientId}}</div> -->
                 <div>{{patientName}}</div>
                 <div>{{getGenderAndAge}}</div>
                 <div class="icons-section">
@@ -16,7 +16,7 @@
             </div>
             <div class="topright dicomTag">
                 <div>{{seriesDescription}}</div>
-                <div>{{studyInfo 'AccessionNumber'}}</div>
+                <div>{{accessionNumber}}</div>
                 <div>{{formatDA (studyInfo 'AcquisitionDate')}} {{formatTM (studyInfo 'AcquisitionTime')}}</div>
                 <div>{{#if seriesNumber}}S: {{seriesNumber}}{{#if gt numImages 1}},{{/if}} {{/if}}{{#if gt numImages 1}}I: {{imageIndex}}/{{numImages}}{{/if}}</div>
                 <div class='timepointName'>{{timepointName}}</div>

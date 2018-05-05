@@ -97,6 +97,9 @@ function resultDataToStudies(resultData) {
 }
 
 OHIF.studies.services.QIDO.Studies = (server, filter) => {
+    OHIF.log.info("Server " + server)
+
+    OHIF.log.info("Filter " + filter)
     const url = filterToQIDOURL(server, filter);
 
     try {

@@ -66,6 +66,8 @@ Meteor.methods({
             OHIF.log.warn('Importing studies into dicomWeb is currently not supported.');
         } else if (server.type === 'dimse') {
             importStudiesDIMSE(studiesToImport, studyImportStatusId);
+        } else if (server.type === 'filesystem') {
+            importStudiesFilesystem(studiesToImport, studyImportStatusId);
         }
     },
     /**
@@ -135,6 +137,47 @@ function importStudiesDIMSE(studiesToImport, studyImportStatusId) {
             OHIF.log.warn('Failed to import study via DIMSE: ', file, error);
         }
 
+    });
+}
+
+function importStudiesFilesystem(studiesToImport, studyImportStatusId) {
+    if (!studiesToImport || !studyImportStatusId) {
+        return;
+    }
+    //  Perform C-Store to import studies and handle the callbacks to update import status
+    // DIMSE.storeInstances(studiesToImport, function(err, file) {
+    OHIF.log.info('studiesToImport: ', studiesToImport);
+    studiesToImport.foreach(function(file) {
+        try {
+            //  Use fiber to be able to modify meteor collection in callback
+            fiber(function() {
+                try {
+                    OHIF.studylist.collections.StudyImportStatus.update(
+                        { _id: studyImportStatusId },
+                        { $inc: { numberOfStudiesImported: 1 } }
+                    );
+                    OHIF.log.info('Study successfully imported via Filesystem: ', file);
+                } catch(error) {
+                    OHIF.studylist.collections.StudyImportStatus.update(
+                        { _id: studyImportStatusId },
+                        { $inc: { numberOfStudiesFailed: 1 } }
+                    );
+                    OHIF.log.warn('Failed to import study via Filesystem: ', file, error);
+                } finally {
+                    //  The import operation of this file is completed, so delete it if still exists
+                    if (fileExists(file)) {
+                        fs.unlink(file);
+                    }
+                }
+
+            }).run();
+        } catch(error) {
+            OHIF.studylist.collections.StudyImportStatus.update(
+                { _id: studyImportStatusId },
+                { $inc: { numberOfStudiesFailed: 1 } }
+            );
+            OHIF.log.warn('Failed to import study via DIMSE: ', file, error);
+        }
     });
 }
 

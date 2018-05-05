@@ -5,7 +5,7 @@ import { OHIF } from 'meteor/ohif:core';
 
 // Clear all selected studies
 function doClearStudySelections() {
-    OHIF.studylist.collections.Studies.update({}, {
+    OHIF.studylist.collections.Studies.update({ selected: true }, {
         $set: { selected: false }
     }, { multi: true });
 }

@@ -5,4 +5,8 @@ const StudyImportStatus = new Mongo.Collection('studyImportStatus');
 StudyImportStatus._debugName = 'StudyImportStatus';
 OHIF.studylist.collections.StudyImportStatus = StudyImportStatus;
 
-export { StudyImportStatus };
+const CachedStudies = new Mongo.Collection('cachedStudies');
+CachedStudies._debugName = 'CachedStudies';
+OHIF.studylist.collections.CachedStudies = CachedStudies;
+
+export { StudyImportStatus, CachedStudies };

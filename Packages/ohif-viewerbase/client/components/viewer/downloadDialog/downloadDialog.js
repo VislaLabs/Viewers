@@ -14,12 +14,27 @@ OHIF.viewerbase.getImageDownloadDialogAnnotationTools = () => {
 Template.imageDownloadDialog.onCreated(() => {
     const instance = Template.instance();
 
+    const enabledElement = cornerstone.getEnabledElements()[0];
+
+    const url = new URL(enabledElement.image.imageId);
+    const imageUrl = new URL(url.searchParams.get('url'));
+    const studyUID = imageUrl.searchParams.get('studyUID');
+    const studies = OHIF.viewer.Studies.all();
+    let accessionNumber;
+    for (studyIndex in studies) {
+        const study = studies[studyIndex];
+        if (study.studyInstanceUid == studyUID) {
+            accessionNumber = study.accessionNumber;
+            break;
+        }
+    }
+    
     instance.schema = new SimpleSchema({
         width: { type: Number },
         height: { type: Number },
         name: {
             type: String,
-            defaultValue: 'image'
+            defaultValue: accessionNumber
         },
         type: {
             type: String,
@@ -45,8 +60,8 @@ Template.imageDownloadDialog.onCreated(() => {
 
     instance.lastImage = {};
 
-    instance.getConfirmCallback = () => () => {
-        instance.downloadImage();
+    instance.getConfirmCallback = () => (formData, event) => {
+        instance.downloadImage(event);
     };
 });
 
@@ -106,7 +121,7 @@ Template.imageDownloadDialog.onRendered(() => {
     };
 
     // TODO: Add quality parameter to cornerstoneTools' saveAs method
-    instance.downloadImage = () => {
+    instance.downloadImage = (event) => {
         const formData = instance.form.value();
         const link = document.createElement('a');
         link.download = `${formData.name}.${formData.type}`;
@@ -114,9 +129,9 @@ Template.imageDownloadDialog.onRendered(() => {
 
         // Create a 'fake' click event to trigger the download
         if (document.createEvent) {
-            const event = document.createEvent('MouseEvents');
-            event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-            link.dispatchEvent(event);
+//             const event = document.createEvent('MouseEvents');
+//             event.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            link.click();//event);
         } else if (link.fireEvent) {
             link.fireEvent('onclick');
         }

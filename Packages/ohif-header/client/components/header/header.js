@@ -23,7 +23,7 @@ Template.header.events({
         OHIF.ui.showDropdown(instance.dropdownItems, {
             parentElement: event.currentTarget,
             menuClasses: 'dropdown-menu-right',
-            marginTop: '25px'
+            marginTop: '-40px'
         });
     }
 });
