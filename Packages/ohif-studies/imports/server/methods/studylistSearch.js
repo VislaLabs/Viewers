@@ -18,18 +18,18 @@ Meteor.methods({
         }
 
         const cachedStudies = OHIF.studylist.collections.CachedStudies.find();
-        if (cachedStudies.count() == 0 || JSON.stringify(filter) != "{}") {  // TODO: WTF
+        if (cachedStudies.count() == 0 || JSON.stringify(filter) !== "{}") {  // TODO: WTF
             try {
                 if (server.type === 'dicomWeb') {
                     const studies = OHIF.studies.services.QIDO.Studies(server, filter);
-                    if (filter === {}) {
+                    if (JSON.stringify(filter) === "{}") {
                         studies.forEach(study => OHIF.studylist.collections.CachedStudies.insert(study));
                     }
                     return studies;
                 } else if (server.type === 'dimse') {
-                    OHIF.log.info(`STUDIES ${OHIF.studylist.collections.CachedStudies.find().count()}`);
+                    OHIF.log.info(`STUDIES ${OHIF.studylist.collections.CachedStudies.find().count()}, FILTER ${JSON.stringify(filter)}`);
                     const studies = OHIF.studies.services.DIMSE.Studies(filter);
-                    if (filter === {}) {
+                    if (JSON.stringify(filter) === "{}") {
                         studies.forEach(study => {
                             OHIF.log.info(`Inserting ${study} into ${OHIF.studylist.collections.CachedStudies}`);
                             OHIF.studylist.collections.CachedStudies.insert(study)

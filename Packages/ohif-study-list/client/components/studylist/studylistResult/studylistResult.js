@@ -13,7 +13,7 @@ Session.setDefault('showVisla', false);
 Session.setDefault('showLoadingText', true);
 Session.setDefault('serverError', false);
 
-OHIF.studylist.sortedStudies = [];
+OHIF.studylist.sortedStudies;
 OHIF.studylist.diagnostis = {};
 OHIF.studylist.reports = {};
 OHIF.studylist.studyCount = 0;
@@ -112,8 +112,6 @@ Meteor.defer(() => {
     });
 })
 
-
-
 Template.studylistResult.helpers({
     /**
      * Returns a ascending sorted instance of the Studies Collection by Patient name and Study Date
@@ -122,7 +120,11 @@ Template.studylistResult.helpers({
         OHIF.studylist._dep.depend();
         const instance = Template.instance();
 
-        let studies = OHIF.studylist.sortedStudies;
+        if (!OHIF.studylist.sortedStudies) {
+          return [];
+        }
+
+        let studies = OHIF.studylist.sortedStudies.fetch();
 
         const rowsPerPage = instance.paginationData.rowsPerPage.get();
         const currentPage = instance.paginationData.currentPage.get();
@@ -219,7 +221,7 @@ function getPredicate(filter) {
         }
         filters = {};
         if (lt || gt) {
-            filters['maxRisk'] = riskFilter;
+            filters['risk'] = riskFilter;
         }
         const wordFilter = getWordFilter(filter);
         if (wordFilter) {
@@ -328,9 +330,9 @@ function finishFilteringStudiesIntoCollection(studies, modality, collection) {
                     diseaseRisk = `${maxRisk}%`
                 }
               }
-              study.diseases = diseasesByRisk.sort((a, b) => b[1] - a[1]).slice(0, 3).map(a => a[0]).join(', ');
+              study.diseases = diseasesByRisk.sort((a, b) => b[1] - a[1]).slice(0, 2).map(a => a[0]).join(', ');
               study.diseaseRisk = diseaseRisk;
-              study.maxRisk = maxRisk;
+              study.risk = maxRisk;
           }
 
           const report = OHIF.studylist.reports[study.accessionNumber];
@@ -395,7 +397,6 @@ function search() {
         OHIF.studylist.collections.Studies = Studies;
         sortStudies();
         Studies._debugName = "Studies";
-        OHIF.studylist._dep.changed();
         Session.set('showLoadingText', false);
     }
 
@@ -554,15 +555,9 @@ function sortStudies(instance) {
         sortOption = Session.get('sortOption');
     }
 
-    let sortFunction;
-    if (sortOption['diseaseRisk'] == 1) {
-        sortOption['diseaseRisk'] = (a, b) => {
-            return (a.diseaseRisk ? parseFloat(a.diseaseRisk) : 0.0) - (b.diseaseRisk ? parseFloat(b.diseaseRisk) : 0.0);
-        }
-    } else if (sortOption['diseaseRisk'] == -1) {
-        sortOption['diseaseRisk'] = (a, b) => {
-            return (b.diseaseRisk ? parseFloat(b.diseaseRisk) : 0.0) - (a.diseaseRisk ? parseFloat(a.diseaseRisk) : 0.0);
-        }
+    if (sortOption['diseaseRisk']) {
+        sortOption['risk'] = sortOption['diseaseRisk'];
+        delete sortOption['diseaseRisk'];
     }
 
     // Pagination parameters
@@ -579,10 +574,11 @@ function sortStudies(instance) {
 
     OHIF.studylist.sortedStudies = OHIF.studylist.collections.Studies.find(filter, {
         sort: sortOption
-    }).fetch();
+    });
     // if (sortFunction) {
     //     OHIF.studylist.sortedStudies.sort(sortFunction);
     // }
+    OHIF.studylist._dep.changed();
 }
 
 Template.studylistResult.events({

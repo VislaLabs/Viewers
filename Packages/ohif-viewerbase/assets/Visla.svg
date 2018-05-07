@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1550px" height="1000px" viewBox="0 0 1550 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+  <symbol id="disease" viewBox="0 0 16 16">
+    <title>Additional Measurements</title>
+    <title>Visla Copy 4aa</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Visla-Copy-4aa" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Guides" opacity="0" transform="translate(260.000000, 399.000000)">
+            <path d="M5.68434189e-14,201 L842,201" id="Path" stroke="#EEEEEE"></path>
+            <path d="M0,1 L842,1" id="Path-2" stroke="#EEEEEE"></path>
+            <rect id="Rectangle" fill-opacity="0.5" fill="#D8D8D8" x="20" y="1" width="180" height="200"></rect>
+            <rect id="Rectangle" fill-opacity="0.5" fill="#D8D8D8" x="360" y="1" width="180" height="200"></rect>
+            <rect id="Rectangle" fill-opacity="0.5" fill="#D8D8D8" x="620" y="1" width="180" height="200"></rect>
+            <rect id="Rectangle" fill-opacity="0.5" fill="#D8D8D8" x="800" y="1" width="180" height="200"></rect>
+        </g>
+        <g id="VISLA" transform="translate(280.000000, 360.000000)" stroke-linecap="round" stroke-width="10">
+            <path d="M0,40 L20,240.498753 C29,241.167082 42.3333333,241.167082 60,240.498753 C86.5,239.496259 103.746094,232.859633 124.582031,202.815802 C138.472656,182.786582 156.945312,128.514648 180,40" id="v" stroke="#979797"></path>
+            <path d="M260,40 L260,220" id="i" stroke="#979797"></path>
+            <path d="M340,120 C340,113.934241 340,107.281137 340,100.040689 C340,89.1800163 340,68.1057902 353,54.1342722 C366,40.1627542 380.949219,40.4882625 400,40.1627542 C412.700521,39.9457486 432.700521,39.9457486 460,40.1627542" id="Path-5" stroke="#979797"></path>
+            <path d="M400,240 C400,234.666667 400,228 400,220 C400,208 400,186 413,173 C426,160 440,160 460,160 C473.333333,160 493.333333,160 520,160" id="Path-5" stroke="#979797" transform="translate(460.000000, 200.000000) scale(-1, -1) translate(-460.000000, -200.000000) "></path>
+            <path d="M560,0 L300,280" id="Path-4" stroke="#FF4B4B"></path>
+            <path d="M600,240 C600,167.321058 600,127.357266 600,120.108626 C600,109.235664 600,88.1375924 614,74.1502653 C628,60.1629383 640.949219,60.4888149 660,60.1629383 C672.700521,59.9456872 692.700521,59.9456872 720,60.1629383" id="l" stroke="#979797" transform="translate(660.000000, 150.000000) scale(1, -1) translate(-660.000000, -150.000000) "></path>
+            <path d="M780,39 L780,239.498753 C786.666667,240.167082 800,240.167082 820,239.498753 C850,238.496259 885,227.468828 909,179.349127 C925,147.269327 935.333333,100.486284 940,39 L780,39 Z" id="a-flat-back-thin-reshape" stroke="#979797" transform="translate(860.000000, 139.500000) scale(-1, -1) translate(-860.000000, -139.500000) "></path>
+        </g>
+    </g>
+  </symbol>
+</svg>
